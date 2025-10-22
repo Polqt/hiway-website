@@ -1,18 +1,106 @@
-import { type NextRequest } from 'next/server'
-import { updateSession } from './utils/supabase/middleware'
+import { createServerClient } from '@supabase/ssr'
+import { NextResponse, type NextRequest } from 'next/server'
 
 export async function middleware(request: NextRequest) {
-  return await updateSession(request)
+  let supabaseResponse = NextResponse.next({
+    request,
+  })
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll()
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) => 
+            request.cookies.set(name, value)
+          )
+          supabaseResponse = NextResponse.next({
+            request,
+          })
+          cookiesToSet.forEach(({ name, value, options }) =>
+            supabaseResponse.cookies.set(name, value, options)
+          )
+        },
+      },
+    }
+  )
+
+  // Refresh session if expired
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  // Define public routes that don't require authentication
+  const publicRoutes = [
+    '/login',
+    '/signup',
+    '/verify-email',
+    '/auth/callback',
+    '/auth/confirm',
+    '/auth/auth-code-error',
+    '/error',
+    '/terms',
+    '/privacy-policy',
+  ]
+
+  const isPublicRoute = publicRoutes.some(route => 
+    request.nextUrl.pathname.startsWith(route)
+  )
+
+  // Allow access to public routes and static files
+  if (
+    isPublicRoute || 
+    request.nextUrl.pathname === '/' ||
+    request.nextUrl.pathname.startsWith('/_next') ||
+    request.nextUrl.pathname.startsWith('/api') ||
+    request.nextUrl.pathname.includes('.')
+  ) {
+    return supabaseResponse
+  }
+
+  // Redirect to login if not authenticated
+  if (!user) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/login'
+    url.searchParams.set('next', request.nextUrl.pathname)
+    return NextResponse.redirect(url)
+  }
+
+  // Check if user is an employer
+  try {
+    const { data: employerData, error } = await supabase
+      .from('employer')
+      .select('employer_id')
+      .eq('auth_user_id', user.id)
+      .maybeSingle()
+
+    if (error || !employerData) {
+      // User is authenticated but not an employer
+      await supabase.auth.signOut()
+      const url = request.nextUrl.clone()
+      url.pathname = '/login'
+      url.searchParams.set('error', 'not_employer')
+      return NextResponse.redirect(url)
+    }
+  } catch (error) {
+    console.error('Middleware error:', error)
+  }
+
+  return supabaseResponse
 }
 
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
+     * Match all request paths except:
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
-     * Feel free to modify this pattern to include more paths.
+     * - public files (public directory)
      */
     '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
