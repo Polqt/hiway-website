@@ -70,11 +70,11 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  // Check if user is an employer
+  // Check if user is an employer and has completed profile
   try {
     const { data: employerData, error } = await supabase
       .from('employer')
-      .select('employer_id')
+      .select('*')
       .eq('auth_user_id', user.id)
       .maybeSingle()
 
@@ -84,6 +84,27 @@ export async function middleware(request: NextRequest) {
       const url = request.nextUrl.clone()
       url.pathname = '/login'
       url.searchParams.set('error', 'not_employer')
+      return NextResponse.redirect(url)
+    }
+
+    // Check if profile is complete (only required fields filled)
+    const isProfileComplete = employerData.name &&
+      employerData.company &&
+      employerData.company_email &&
+      employerData.company_position &&
+      employerData.company_phone_number
+
+    // If accessing dashboard but profile not complete, redirect to profile
+    if (!isProfileComplete && request.nextUrl.pathname.startsWith('/dashboard')) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/profile'
+      return NextResponse.redirect(url)
+    }
+
+    // If accessing profile but already complete, redirect to dashboard
+    if (isProfileComplete && request.nextUrl.pathname === '/profile') {
+      const url = request.nextUrl.clone()
+      url.pathname = '/dashboard'
       return NextResponse.redirect(url)
     }
   } catch (error) {

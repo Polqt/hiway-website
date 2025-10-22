@@ -110,20 +110,7 @@ export async function login(formData: FormData) {
     }
 
     revalidatePath('/', 'layout')
-    redirect('/dashboard')
-  }
-
-  // Otherwise use magic link (OTP)
-  const { error } = await supabase.auth.signInWithOtp({
-    email,
-    options: {
-      emailRedirectTo: `${origin}/auth/callback?next=/dashboard`,
-    }
-  })
-
-  if (error) {
-    console.error('Login error:', error)
-    return { error: error.message }
+    redirect('/profile')
   }
 
   return { 

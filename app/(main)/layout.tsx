@@ -8,6 +8,7 @@ export default function MainLayout({
   return (
     <div>
       {children}
+      <Toaster position="top-right" />
     </div>
   );
 }

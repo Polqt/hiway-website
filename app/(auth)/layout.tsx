@@ -8,7 +8,7 @@ export default function AuthLayout({
   return (
     <div>
       {children}
-      <Toaster />
+      <Toaster position="top-right" />
     </div>
   );
 }
