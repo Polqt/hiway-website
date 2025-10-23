@@ -11,9 +11,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { TrendingUp, Users, Activity, DollarSign } from "lucide-react"
+import { Users, Activity, DollarSign } from "lucide-react"
 
 export default function Page() {
   return (
@@ -36,133 +34,86 @@ export default function Page() {
             </Breadcrumb>
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-                <Users className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">2,543</div>
-                <p className="text-xs text-muted-foreground">
-                  <Badge variant="secondary" className="text-green-600">
-                    <TrendingUp className="h-3 w-3 mr-1" />
-                    +12.5%
-                  </Badge>
-                  from last month
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Active Sessions</CardTitle>
-                <Activity className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">1,234</div>
-                <p className="text-xs text-muted-foreground">
-                  <Badge variant="secondary" className="text-green-600">
-                    <TrendingUp className="h-3 w-3 mr-1" />
-                    +8.2%
-                  </Badge>
-                  from yesterday
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Revenue</CardTitle>
-                <DollarSign className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">$45,231</div>
-                <p className="text-xs text-muted-foreground">
-                  <Badge variant="secondary" className="text-green-600">
-                    <TrendingUp className="h-3 w-3 mr-1" />
-                    +15.3%
-                  </Badge>
-                  from last month
-                </p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">System Health</CardTitle>
-                <Activity className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">99.9%</div>
-                <p className="text-xs text-muted-foreground">
-                  <Badge variant="secondary" className="text-green-600">
-                    Excellent
-                  </Badge>
-                  uptime this month
-                </p>
-              </CardContent>
-            </Card>
+        <div className="flex flex-1 flex-col gap-8 p-6 pt-0">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-sm font-medium text-gray-600">Total Applicants</h3>
+                <Users className="h-4 w-4 text-gray-400" />
+              </div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">2,543</div>
+              <p className="text-xs text-gray-500 flex items-center">
+                <span className="text-green-600 mr-1">↗ +12.5%</span>
+                from last month
+              </p>
+            </div>
+            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-sm font-medium text-gray-600">Pending Applications</h3>
+                <Activity className="h-4 w-4 text-gray-400" />
+              </div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">1,234</div>
+              <p className="text-xs text-gray-500 flex items-center">
+                <span className="text-green-600 mr-1">↗ +8.2%</span>
+                from yesterday
+              </p>
+            </div>
+            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-sm font-medium text-gray-600">Revenue</h3>
+                <DollarSign className="h-4 w-4 text-gray-400" />
+              </div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">$45,231</div>
+              <p className="text-xs text-gray-500 flex items-center">
+                <span className="text-green-600 mr-1">↗ +15.3%</span>
+                from last month
+              </p>
+            </div>
+            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-sm font-medium text-gray-600">Completed Applications</h3>
+                <Activity className="h-4 w-4 text-gray-400" />
+              </div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">99.9%</div>
+              <p className="text-xs text-gray-500 flex items-center">
+                <span className="text-green-600 mr-1">Excellent</span>
+                completion rate
+              </p>
+            </div>
           </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-            <Card className="col-span-4">
-              <CardHeader>
-                <CardTitle>Recent Activity</CardTitle>
-                <CardDescription>Latest user interactions and system events</CardDescription>
-              </CardHeader>
-              <CardContent className="pl-2">
-                <div className="space-y-4">
-                  <div className="flex items-center">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mr-3"></div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">New user registration</p>
-                      <p className="text-xs text-muted-foreground">john.doe@example.com joined 2 minutes ago</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">Payment processed</p>
-                      <p className="text-xs text-muted-foreground">$299.00 subscription renewed 5 minutes ago</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="w-2 h-2 bg-orange-500 rounded-full mr-3"></div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">System maintenance</p>
-                      <p className="text-xs text-muted-foreground">Database optimization completed 1 hour ago</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full mr-3"></div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">Report generated</p>
-                      <p className="text-xs text-muted-foreground">Monthly analytics report ready 2 hours ago</p>
-                    </div>
-                  </div>
+          <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+            <h2 className="text-lg font-semibold text-gray-900 mb-2">Recent Activity</h2>
+            <p className="text-sm text-gray-600 mb-6">Latest user interactions and system events</p>
+            <div className="space-y-4">
+              <div className="flex items-start">
+                <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-4 shrink-0"></div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-gray-900">New user registration</p>
+                  <p className="text-xs text-gray-500">john.doe@example.com joined 2 minutes ago</p>
                 </div>
-              </CardContent>
-            </Card>
-            <Card className="col-span-3">
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-                <CardDescription>Common tasks and shortcuts</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  <button className="w-full text-left p-2 rounded-md hover:bg-muted transition-colors">
-                    Generate Report
-                  </button>
-                  <button className="w-full text-left p-2 rounded-md hover:bg-muted transition-colors">
-                    View Analytics
-                  </button>
-                  <button className="w-full text-left p-2 rounded-md hover:bg-muted transition-colors">
-                    Manage Users
-                  </button>
-                  <button className="w-full text-left p-2 rounded-md hover:bg-muted transition-colors">
-                    System Settings
-                  </button>
+              </div>
+              <div className="flex items-start">
+                <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-4 shrink-0"></div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-gray-900">Payment processed</p>
+                  <p className="text-xs text-gray-500">$299.00 subscription renewed 5 minutes ago</p>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+              <div className="flex items-start">
+                <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-4 shrink-0"></div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-gray-900">System maintenance</p>
+                  <p className="text-xs text-gray-500">Database optimization completed 1 hour ago</p>
+                </div>
+              </div>
+              <div className="flex items-start">
+                <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-4 shrink-0"></div>
+                <div className="flex-1">
+                  <p className="text-sm font-medium text-gray-900">Report generated</p>
+                  <p className="text-xs text-gray-500">Monthly analytics report ready 2 hours ago</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </SidebarInset>

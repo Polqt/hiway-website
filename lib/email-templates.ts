@@ -1,13 +1,9 @@
-export interface EmailTemplate {
-  subject: string
-  message: string
-  category: 'interview' | 'rejection' | 'offer' | 'shortlisted'
-}
+import { EmailTemplate } from "@/types/email"
 
 export const emailTemplates: Record<string, EmailTemplate> = {
   "interview-invitation": {
     category: 'interview',
-    subject: "Interview Invitation - {position} Position",
+    subject: "Interview Invitation",
     message: `Dear {applicant_name},
     I hope this email finds you well. Thank you for your interest in the {position} position at {company_name}.
 
@@ -25,7 +21,6 @@ export const emailTemplates: Record<string, EmailTemplate> = {
 
     Best regards,
     {employer_name}
-    HR Manager
     {company_name}
     {contact_email}
     {contact_phone}`
@@ -33,7 +28,7 @@ export const emailTemplates: Record<string, EmailTemplate> = {
 
   "application-rejection": {
     category: 'rejection',
-    subject: "Update on Your Application - {position} Position",
+    subject: "Update on Your Application",
     message: `Dear {applicant_name},
     Thank you for your interest in the {position} position at {company_name} and for taking the time to submit your application.
 
@@ -45,7 +40,6 @@ export const emailTemplates: Record<string, EmailTemplate> = {
 
     Best regards,
     {employer_name}
-    HR Manager
     {company_name}
     {contact_email}`
   },
@@ -64,7 +58,6 @@ export const emailTemplates: Record<string, EmailTemplate> = {
 
     Best regards,
     {employer_name}
-    HR Manager
     {company_name}
     {contact_email}
     {contact_phone}`
@@ -72,7 +65,7 @@ export const emailTemplates: Record<string, EmailTemplate> = {
 
   "offer-letter": {
     category: 'offer',
-    subject: "Job Offer - {position} Position",
+    subject: "Job Offer",
     message: `Dear {applicant_name},
     Congratulations! We are pleased to offer you the position of {position} at {company_name}.
 
@@ -92,7 +85,6 @@ export const emailTemplates: Record<string, EmailTemplate> = {
 
     Best regards,
     {employer_name}
-    HR Manager
     {company_name}
     {contact_email}
     {contact_phone}`
