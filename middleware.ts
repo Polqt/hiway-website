@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
+import { checkProfileCompletion } from '@/lib/profile-check'
 
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -87,12 +88,8 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(url)
     }
 
-    // Check if profile is complete (only required fields filled)
-    const isProfileComplete = employerData.name &&
-      employerData.company &&
-      employerData.company_email &&
-      employerData.company_position &&
-      employerData.company_phone_number
+    // Check if profile is complete using utility function
+    const isProfileComplete = await checkProfileCompletion(user.id)
 
     // If accessing dashboard but profile not complete, redirect to profile
     if (!isProfileComplete && request.nextUrl.pathname.startsWith('/dashboard')) {

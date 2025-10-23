@@ -2,6 +2,7 @@ import React from 'react'
 import { createClient } from '@/utils/supabase/server'
 import { ProfileForm } from '@/components/auth/profile-form'
 import { redirect } from 'next/navigation'
+import { checkProfileCompletion, getEmployerProfile } from '@/lib/profile-check'
 
 export default async function ProfilePage() {
   const supabase = await createClient()
@@ -12,28 +13,13 @@ export default async function ProfilePage() {
     redirect('/login')
   }
 
-  // Get employer profile data
-  const { data: employerData, error: employerError } = await supabase
-    .from('employer')
-    .select('*')
-    .eq('auth_user_id', user.id)
-    .maybeSingle()
-
-  if (employerError) {
-    console.error('Error fetching employer data:', employerError)
-  }
-
-  // Check if profile is complete (only required fields)
-  const isProfileComplete = employerData &&
-    employerData.name &&
-    employerData.company &&
-    employerData.company_email &&
-    employerData.company_position &&
-    employerData.company_phone_number
+  const isProfileComplete = await checkProfileCompletion(user.id)
 
   if (isProfileComplete) {
     redirect('/dashboard')
   }
+
+  const employerData = await getEmployerProfile(user.id)
 
   return (
     <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
