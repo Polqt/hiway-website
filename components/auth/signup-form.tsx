@@ -136,10 +136,8 @@ export function SignupForm({
               onCheckedChange={(checked) => setTermsAccepted(checked === true)}
               disabled={isPending}
             />
-            <div className="grid gap-1">
-              <Label htmlFor="terms" className="text-sm font-normal">
-                Accept terms and conditions
-              </Label>
+            <div className="grid gap-2">
+              <Label htmlFor="terms-2">Accept terms and conditions</Label>
               <p className="text-muted-foreground text-xs">
                 By clicking continue, you agree to our{" "}
                 <a href="/terms" className="underline hover:text-foreground">

@@ -7,7 +7,6 @@ import { headers } from 'next/headers'
 
 export async function signup(formData: FormData) {
   const supabase = await createClient()
-  const origin = (await headers()).get('origin')
 
   const email = formData.get('email') as string
   const password = formData.get('password') as string
@@ -60,22 +59,31 @@ export async function login(formData: FormData) {
 
   // If password is provided, use password login
   if (password) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+    let data, error
 
-    if (error) {
-      console.error('Login error:', error)
-      return { error: error.message }
+    try {
+      const result = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+      data = result.data
+      error = result.error
+
+      if (error) {
+        console.error('Login error:', error)
+        return { error: error.message }
+      }
+    } catch (error) {
+      console.error('Login fetch error:', error)
+      return { error: 'Network error. Please try again.' }
     }
 
     // Check if email is verified
     if (data.user && !data.user.email_confirmed_at) {
       await supabase.auth.signOut()
-      return { 
+      return {
         error: 'Please verify your email before logging in. Check your inbox for the verification link.',
-        needsVerification: true 
+        needsVerification: true
       }
     }
 
@@ -83,7 +91,7 @@ export async function login(formData: FormData) {
     const { data: employerData, error: employerError } = await supabase
       .from('employer')
       .select('employer_id')
-      .eq('auth_user_id', data.user.id)
+      .eq('auth_user_id', data.user!.id)
       .maybeSingle()
 
     if (employerError) {
@@ -97,9 +105,9 @@ export async function login(formData: FormData) {
       const { error: insertError } = await supabase
         .from('employer')
         .insert({
-          auth_user_id: data.user.id,
-          company_email: data.user.email,
-          name: data.user.user_metadata?.full_name || data.user.user_metadata?.name || null,
+          auth_user_id: data.user!.id,
+          company_email: data.user!.email,
+          name: data.user!.user_metadata?.full_name || data.user!.user_metadata?.name || null,
         })
 
       if (insertError) {
@@ -145,4 +153,10 @@ export async function resendVerification(formData: FormData) {
     success: true, 
     message: 'Verification email resent! Check your inbox.' 
   }
+}
+
+export async function logout() {
+  const supabase = await createClient()
+  await supabase.auth.signOut()
+  redirect('/')
 }

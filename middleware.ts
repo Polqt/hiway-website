@@ -30,12 +30,17 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Refresh session if expired
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  // Get authenticated user from Supabase (server-side method)
+  let user = null
+  try {
+    const {
+      data: { user: authUser },
+    } = await supabase.auth.getUser()
+    user = authUser || null
+  } catch (error) {
+    console.error('Failed to get user:', error)
+  }
 
-  // Define public routes that don't require authentication
   const publicRoutes = [
     '/login',
     '/signup',
@@ -72,40 +77,42 @@ export async function middleware(request: NextRequest) {
   }
 
   // Check if user is an employer and has completed profile
-  try {
-    const { data: employerData, error } = await supabase
-      .from('employer')
-      .select('*')
-      .eq('auth_user_id', user.id)
-      .maybeSingle()
+  if (user) {
+    try {
+      const { data: employerData, error } = await supabase
+        .from('employer')
+        .select('*')
+        .eq('auth_user_id', user.id)
+        .maybeSingle()
 
-    if (error || !employerData) {
-      // User is authenticated but not an employer
-      await supabase.auth.signOut()
-      const url = request.nextUrl.clone()
-      url.pathname = '/login'
-      url.searchParams.set('error', 'not_employer')
-      return NextResponse.redirect(url)
+      if (error || !employerData) {
+        // User is authenticated but not an employer
+        await supabase.auth.signOut()
+        const url = request.nextUrl.clone()
+        url.pathname = '/login'
+        url.searchParams.set('error', 'not_employer')
+        return NextResponse.redirect(url)
+      }
+
+      // Check if profile is complete using utility function
+      const isProfileComplete = await checkProfileCompletion(user.id)
+
+      // If accessing dashboard but profile not complete, redirect to profile
+      if (!isProfileComplete && request.nextUrl.pathname.startsWith('/dashboard')) {
+        const url = request.nextUrl.clone()
+        url.pathname = '/profile'
+        return NextResponse.redirect(url)
+      }
+
+      // If accessing profile but already complete, redirect to dashboard
+      if (isProfileComplete && request.nextUrl.pathname === '/profile') {
+        const url = request.nextUrl.clone()
+        url.pathname = '/dashboard'
+        return NextResponse.redirect(url)
+      }
+    } catch (error) {
+      console.error('Middleware error:', error)
     }
-
-    // Check if profile is complete using utility function
-    const isProfileComplete = await checkProfileCompletion(user.id)
-
-    // If accessing dashboard but profile not complete, redirect to profile
-    if (!isProfileComplete && request.nextUrl.pathname.startsWith('/dashboard')) {
-      const url = request.nextUrl.clone()
-      url.pathname = '/profile'
-      return NextResponse.redirect(url)
-    }
-
-    // If accessing profile but already complete, redirect to dashboard
-    if (isProfileComplete && request.nextUrl.pathname === '/profile') {
-      const url = request.nextUrl.clone()
-      url.pathname = '/dashboard'
-      return NextResponse.redirect(url)
-    }
-  } catch (error) {
-    console.error('Middleware error:', error)
   }
 
   return supabaseResponse

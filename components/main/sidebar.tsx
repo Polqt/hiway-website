@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useEffect, useState } from "react"
 import {
   BookOpen,
   LayoutDashboard,
@@ -18,12 +19,12 @@ import {
 import { NavUser } from "./nav-user"
 import Image from "next/image"
 import { NavMain } from "./nav-main"
+import { createClient } from "@/utils/supabase/client"
 
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
+    name: "Loading...",
+    email: "Loading...",
   },
     navMain: [
     {
@@ -122,11 +123,50 @@ const data = {
 }
 
 export function SideBar({ collapsible = "icon", ...props }: React.ComponentProps<typeof Sidebar> & { collapsible?: "icon" | "none" }) {
+  const [user, setUser] = useState(data.user)
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const supabase = createClient()
+      const { data: { user: authUser }, error: authError } = await supabase.auth.getUser()
+
+      if (authError || !authUser) {
+        console.error('Error getting auth user:', authError)
+        return
+      }
+
+      const { data: employerData, error: employerError } = await supabase
+        .from('employer')
+        .select('name, company_email')
+        .eq('auth_user_id', authUser.id)
+        .maybeSingle()
+
+      if (employerError) {
+        console.error('Error fetching employer data:', employerError)
+        return
+      }
+
+      if (employerData) {
+        setUser({
+          name: employerData.name || authUser.user_metadata?.full_name || authUser.user_metadata?.name || 'Unknown',
+          email: employerData.company_email || authUser.email || 'Unknown',
+        })
+      } else {
+        setUser({
+          name: authUser.user_metadata?.full_name || authUser.user_metadata?.name || 'Unknown',
+          email: authUser.email || 'Unknown',
+        })
+      }
+    }
+
+    fetchUserProfile()
+  }, [])
+
   return (
     <Sidebar collapsible={collapsible} {...props}>
       <SidebarHeader>
-        <Image 
-            src={'/hiway-logo.svg'}
+        <Image
+            src={'/hiway-text-logo.svg'}
             alt="Hi-Way Logo"
             width={100}
             height={100}
@@ -136,7 +176,7 @@ export function SideBar({ collapsible = "icon", ...props }: React.ComponentProps
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

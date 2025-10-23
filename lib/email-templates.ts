@@ -39,8 +39,7 @@ export const emailTemplates: Record<string, EmailTemplate> = {
 
     Best regards,
     {employer_name}
-    {company_name}
-    {contact_email}`
+    {company_name}`
   },
 
   "application-shortlisted": {
@@ -57,15 +56,14 @@ export const emailTemplates: Record<string, EmailTemplate> = {
 
     Best regards,
     {employer_name}
-    {company_name}
-    {contact_phone}`
+    {company_name}`
   },
 
   "offer-letter": {
     category: 'offer',
     subject: "Job Offer",
     message: `Dear {applicant_name},
-    Congratulations! We are pleased to offer you the position of {position} at {company_name}.
+    Congratulations! We are pleased to offer you  at {company_name}.
 
     After careful consideration of your qualifications, experience, and our interview discussions, we believe you will be a valuable addition to our team.
 
@@ -83,8 +81,7 @@ export const emailTemplates: Record<string, EmailTemplate> = {
 
     Best regards,
     {employer_name}
-    {company_name}
-    {contact_phone}`
+    {company_name}`
   }
 }
 

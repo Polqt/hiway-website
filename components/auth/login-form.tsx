@@ -7,7 +7,6 @@ import {
   FieldDescription,
   FieldGroup,
   FieldLabel,
-  FieldSeparator,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import Image from "next/image"
@@ -23,7 +22,7 @@ export function LoginForm({
   ...props
 }: React.ComponentProps<"div">) {
   const [isPending, startTransition] = useTransition()
-  const [formError, setFormError] = useState<string | null>(null)
+  const [, setFormError] = useState<string | null>(null)
   const [termsAccepted, setTermsAccepted] = useState(false)
   const searchParams = useSearchParams()
   const verified = searchParams.get('verified')
@@ -122,6 +121,7 @@ export function LoginForm({
               name="email"
               type="email"
               placeholder="hr@example.com"
+              autoComplete="current-email"
               required
               disabled={isPending}
             />
@@ -132,6 +132,7 @@ export function LoginForm({
               id="password"
               name="password"
               type="password"
+              autoComplete="current-password"
               disabled={isPending}
             />
           </Field>
@@ -143,10 +144,8 @@ export function LoginForm({
               onCheckedChange={(checked) => setTermsAccepted(checked === true)}
               disabled={isPending}
             />
-            <div className="grid gap-1">
-              <Label htmlFor="terms" className="text-sm font-normal">
-                Accept terms and conditions
-              </Label>
+            <div className="grid gap-2">
+              <Label htmlFor="terms-2">Accept terms and conditions</Label>
               <p className="text-muted-foreground text-xs">
                 By continuing, you agree to our{" "}
                 <a href="/terms" className="underline hover:text-foreground">
