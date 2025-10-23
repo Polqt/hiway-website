@@ -10,20 +10,20 @@
     "includes": ["**", "!node_modules", "!.next", "!dist", "!build"]
   },
     "formatter": {
-    "enabled": true,
-    "formatWithErrors": false,
-    "attributePosition": "auto",
-    "indentStyle": "tab",
-    "indentWidth": 2,
-    "lineWidth": 80,
-    "lineEnding": "lf"
-  },
+      "enabled": true,
+      "formatWithErrors": false,
+      "attributePosition": "auto",
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "lineWidth": 80,
+      "lineEnding": "lf"
+    },
   "javascript": {
     "formatter": {
       "arrowParentheses":"always",
       "bracketSameLine": false,
       "bracketSpacing": true,
-      "jsxQuoteStyle": "double",
+      "jsxQuoteStyle": "single",
       "quoteProperties": "asNeeded",
       "semicolons": "always",
       "trailingCommas": "all"
@@ -55,3 +55,4 @@
     }
   }
 }
+

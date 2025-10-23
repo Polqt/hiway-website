@@ -30,11 +30,13 @@ import { logout } from "@/app/(auth)/action"
 
 export function NavUser({
   user,
+  hasBreadcrumbs = false,
 }: {
   user: {
     name: string
     email: string
   }
+  hasBreadcrumbs?: boolean
 }) {
   const { isMobile } = useSidebar()
   const router = useRouter()
@@ -52,6 +54,10 @@ export function NavUser({
     })
   }
 
+  const displayName = hasBreadcrumbs
+    ? (user.name.length > 2 ? user.name.substring(0, 2).toUpperCase() : user.name.toUpperCase())
+    : user.name
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -62,8 +68,10 @@ export function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{user.name}</span>
-                <span className="truncate text-xs">{user.email}</span>
+                <span className="truncate font-medium">{displayName}</span>
+                {!hasBreadcrumbs && (
+                  <span className="truncate text-xs">{user.email}</span>
+                )}
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
