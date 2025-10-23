@@ -22,7 +22,6 @@ export const emailTemplates: Record<string, EmailTemplate> = {
     Best regards,
     {employer_name}
     {company_name}
-    {contact_email}
     {contact_phone}`
   },
 
@@ -30,7 +29,7 @@ export const emailTemplates: Record<string, EmailTemplate> = {
     category: 'rejection',
     subject: "Update on Your Application",
     message: `Dear {applicant_name},
-    Thank you for your interest in the {position} position at {company_name} and for taking the time to submit your application.
+    Thank you for your interest at {company_name} and for taking the time to submit your application.
 
     After careful consideration of all applications, we have decided to move forward with other candidates whose qualifications more closely match our current needs.
 
@@ -48,7 +47,7 @@ export const emailTemplates: Record<string, EmailTemplate> = {
     category: 'shortlisted',
     subject: "Great News! Your Application Has Been Shortlisted",
     message: `Dear {applicant_name},
-    Congratulations! Your application for the {position} position at {company_name} has been shortlisted.
+    Congratulations! Your application at {company_name} has been shortlisted.
 
     We were impressed by your qualifications and experience, and we would like to move forward with your application to the next stage of our recruitment process.
 
@@ -59,7 +58,6 @@ export const emailTemplates: Record<string, EmailTemplate> = {
     Best regards,
     {employer_name}
     {company_name}
-    {contact_email}
     {contact_phone}`
   },
 
@@ -86,7 +84,6 @@ export const emailTemplates: Record<string, EmailTemplate> = {
     Best regards,
     {employer_name}
     {company_name}
-    {contact_email}
     {contact_phone}`
   }
 }

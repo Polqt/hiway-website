@@ -95,7 +95,7 @@ export default function TemplatesPage() {
         application_id: app.application_id,
         applicant_name: 'Applicant Name',
         applicant_email: 'applicant@email.com', 
-        position: 'Job Position', // Placeholder - will be fetched when selected
+        position: 'Job Position',
         status: app.status,
         applied_date: app.created_at
       }))
@@ -127,12 +127,9 @@ export default function TemplatesPage() {
   const currentTemplate = emailTemplates[selectedTemplate]
 
   const generateEmailContent = () => {
-    if (!selectedApplication) return currentTemplate
-
-    // Use employer data if available, otherwise use defaults
     const variables = {
-      applicant_name: selectedApplication.applicant_name,
-      position: selectedApplication.position,
+      applicant_name: selectedApplication?.applicant_name || '{applicant_name}',
+      position: selectedApplication?.position || '{position}',
       company_name: customVariables.company_name || employer?.company || 'Company Name',
       contact_email: customVariables.contact_email || employer?.company_email || 'contact@email.com',
       contact_phone: customVariables.contact_phone || employer?.company_phone_number || '+1 (555) 123-4567',
