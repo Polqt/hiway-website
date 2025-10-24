@@ -66,7 +66,7 @@ const navMain = [
       },
       {
         title: "Communication History",
-        url: "/applications/communications",
+        url: "/maintenance",
       },
     ],
   },
@@ -131,8 +131,8 @@ export function SideBar({
     email: "Loading...",
   })
 
-  // Check if we're on a page with breadcrumbs (not the root dashboard) OR sidebar is collapsed
-  const hasBreadcrumbs = (pathname !== "/dashboard" && pathname.startsWith("/dashboard")) || state === "collapsed"
+  // Check if sidebar is collapsed
+  const hasBreadcrumbs = state === "collapsed"
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -173,11 +173,11 @@ export function SideBar({
 
   return (
     <Sidebar collapsible={collapsible} {...props}>
-      <SidebarHeader className="flex items-center justify-center">
+      <SidebarHeader className="flex items-start ml-2 mt-2 justify-center">
         <Image
           src={hasBreadcrumbs ? "/hiway-logo.svg" : "/hiway-text-logo.svg"}
           alt="Hi-Way Logo"
-          width={hasBreadcrumbs ? 45 : 120}
+          width={hasBreadcrumbs ? 45 : 75}
           height={45}
           className="object-contain"
         />

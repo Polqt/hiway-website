@@ -12,7 +12,8 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { ChartAreaInteractive } from '@/components/main/dashboard/chart-area'
-import { ChartBarInteractive } from '@/components/main/dashboard/chart-bar'
+import { ChartPieInteractive } from '@/components/main/dashboard/chart-pie'
+import { ChartBarMixed } from "@/components/main/dashboard/chart-bar"
 
 export default function AnalyticsPage() {
   return (
@@ -29,18 +30,23 @@ export default function AnalyticsPage() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Dashboard Analytics</BreadcrumbPage>
+                  <BreadcrumbPage>Dashboard</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-8 p-6 pt-0">
-          <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-            <ChartAreaInteractive />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <div className="bg-white rounded-xl border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all duration-200">
+              <ChartPieInteractive />
+            </div>
+            <div className="bg-white rounded-xl p-6 border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all duration-200">
+              <ChartAreaInteractive />
+            </div>
           </div>
-          <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-            <ChartBarInteractive />
+          <div className="bg-white rounded-xl p-6 border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all duration-200">
+            <ChartBarMixed />
           </div>
         </div>
       </SidebarInset>

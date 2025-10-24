@@ -26,13 +26,23 @@ import { useState, useEffect } from "react"
 import { emailTemplates, replaceTemplateVariables } from "@/lib/email-templates"
 import { toast } from "sonner"
 import { createClient } from "@/utils/supabase/client"
+import { Application, Employer } from "@/types/application"
+
+interface SimplifiedApplication {
+  application_id: string;
+  applicant_name: string;
+  applicant_email: string;
+  position: string;
+  status: string;
+  applied_date: string;
+}
 
 export default function TemplatesPage() {
   const [selectedTemplate, setSelectedTemplate] = useState<string>("interview-invitation")
   const [customSubject, setCustomSubject] = useState("")
   const [customMessage, setCustomMessage] = useState("")
-  const [applications, setApplications] = useState<Application[]>([])
-  const [selectedApplication, setSelectedApplication] = useState<Application | null>(null)
+  const [applications, setApplications] = useState<SimplifiedApplication[]>([])
+  const [selectedApplication, setSelectedApplication] = useState<SimplifiedApplication | null>(null)
   const [employer, setEmployer] = useState<Employer | null>(null)
   const [loading, setLoading] = useState(true)
   const [customVariables, setCustomVariables] = useState({
@@ -91,10 +101,10 @@ export default function TemplatesPage() {
         return
       }
 
-      const formattedApplications: Application[] = data.map((app: any) => ({
+      const formattedApplications: SimplifiedApplication[] = data.map((app: any) => ({
         application_id: app.application_id,
         applicant_name: 'Applicant Name',
-        applicant_email: 'applicant@email.com', 
+        applicant_email: 'applicant@email.com',
         position: 'Job Position',
         status: app.status,
         applied_date: app.created_at

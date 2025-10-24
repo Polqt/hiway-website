@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/utils/supabase/server'
 import { zoomIntegration, ZoomMeetingRequest } from '@/lib/zoom-integration'
+import { notificationService } from '@/lib/notification'
 
 export async function POST(request: NextRequest) {
   try {
@@ -113,6 +114,9 @@ export async function POST(request: NextRequest) {
       console.error('Error updating application status:', updateError)
       // Don't fail the request if this update fails, just log it
     }
+
+    // Schedule automatic reminders for the meeting
+    await notificationService.scheduleMeetingReminders(meetingData.id)
 
     return NextResponse.json({
       success: true,
