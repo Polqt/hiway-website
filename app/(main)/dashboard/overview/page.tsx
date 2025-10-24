@@ -11,7 +11,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { Users, Activity, DollarSign } from "lucide-react"
+import { Users, Activity, CheckCheck } from "lucide-react"
 
 export default function Page() {
   return (
@@ -60,12 +60,12 @@ export default function Page() {
             </div>
             <div className="bg-white rounded-xl p-6 border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all duration-200 cursor-pointer">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-medium text-gray-700">Revenue</h3>
-                <DollarSign className="h-5 w-5 text-gray-500" />
+                <h3 className="text-sm font-medium text-gray-700">Applicants Hired</h3>
+                <CheckCheck className="h-5 w-5 text-gray-500" />
               </div>
-              <div className="text-3xl font-bold text-gray-900 mb-2">$45,231</div>
+              <div className="text-3xl font-bold text-gray-900 mb-2">156</div>
               <p className="text-xs text-gray-600 flex items-center">
-                <span className="text-green-600 font-medium mr-1">↗ +15.3%</span>
+                <span className="text-green-600 font-medium mr-1">↗ +12.5%</span>
                 from last month
               </p>
             </div>
@@ -88,29 +88,29 @@ export default function Page() {
               <div className="flex items-start p-3 rounded-lg hover:bg-gray-50 transition-colors">
                 <div className="w-3 h-3 bg-blue-500 rounded-full mt-1.5 mr-4 shrink-0"></div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900">New user registration</p>
-                  <p className="text-xs text-gray-500">john.doe@example.com joined 2 minutes ago</p>
+                  <p className="text-sm font-medium text-gray-900">New application submitted</p>
+                  <p className="text-xs text-gray-500">jane.smith@example.com applied 2 minutes ago</p>
                 </div>
               </div>
               <div className="flex items-start p-3 rounded-lg hover:bg-gray-50 transition-colors">
                 <div className="w-3 h-3 bg-green-500 rounded-full mt-1.5 mr-4 shrink-0"></div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900">Payment processed</p>
-                  <p className="text-xs text-gray-500">$299.00 subscription renewed 5 minutes ago</p>
+                  <p className="text-sm font-medium text-gray-900">Job seeker emailed back</p>
+                  <p className="text-xs text-gray-500">alex.johnson@example.com responded 5 minutes ago</p>
                 </div>
               </div>
               <div className="flex items-start p-3 rounded-lg hover:bg-gray-50 transition-colors">
                 <div className="w-3 h-3 bg-orange-500 rounded-full mt-1.5 mr-4 shrink-0"></div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900">System maintenance</p>
-                  <p className="text-xs text-gray-500">Database optimization completed 1 hour ago</p>
+                  <p className="text-sm font-medium text-gray-900">Application reviewed</p>
+                  <p className="text-xs text-gray-500">Candidate profile updated 1 hour ago</p>
                 </div>
               </div>
               <div className="flex items-start p-3 rounded-lg hover:bg-gray-50 transition-colors">
                 <div className="w-3 h-3 bg-purple-500 rounded-full mt-1.5 mr-4 shrink-0"></div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-gray-900">Report generated</p>
-                  <p className="text-xs text-gray-500">Monthly analytics report ready 2 hours ago</p>
+                  <p className="text-sm font-medium text-gray-900">Interview scheduled</p>
+                  <p className="text-xs text-gray-500">Meeting with top candidate set for tomorrow</p>
                 </div>
               </div>
             </div>
